@@ -1,155 +1,593 @@
 <!DOCTYPE html>
-<html lang="en" style="background: black;">
+<html lang="en" style="background: #06090a;">
 <head>
-	
-	<!-- Basic -->
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Manish - Portfolio Card</title>
-	<meta name="description" content="">
-	<meta name="keywords" content="">
-	
-	<!-- Mobile Specific Metas -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-	
-	<!-- Load Fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Kaushan+Script%7CPoppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-	
-	<!-- CSS -->
-	<link rel="stylesheet" href="css/basic.css" />
-	<link rel="stylesheet" href="css/layout.css" />
-	<link rel="stylesheet" href="css/ionicons.css" />
-	<link rel="stylesheet" href="css/magnific-popup.css" />
-	<link rel="stylesheet" href="css/animate.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	
-	<!--[if lt IE 9]>
-	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<title>Manish Chalise — Founding Engineer &amp; Engineering Lead</title>
+	<meta name="description" content="Career ledger of Manish Chalise: founding engineer at ZenLedger who scaled crypto tax and federal blockchain forensics products through a $15M Series B. 10B+ transaction rows, $50B+ in tracked assets, 827K labelled addresses." />
+	<link rel="canonical" href="https://www.mchalise.com.np/" />
+	<meta name="theme-color" content="#06090a" />
+	<meta name="author" content="Manish Chalise" />
+
+	<!-- Open Graph / Twitter -->
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Manish Chalise" />
+	<meta property="og:title" content="Manish Chalise — Founding Engineer &amp; Engineering Lead" />
+	<meta property="og:description" content="Your career, verified on-chain. Founding engineer who scaled fintech through a $15M Series B — crypto tax, accounting and federal blockchain forensics." />
+	<meta property="og:url" content="https://www.mchalise.com.np/" />
+	<!-- PLACEHOLDER: og:image needs a 1200x630 raster (og.png) before launch; leaving it out beats shipping a 404 image. -->
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:title" content="Manish Chalise — Founding Engineer &amp; Engineering Lead" />
+	<meta name="twitter:description" content="Your career, verified on-chain. Crypto tax, federal blockchain forensics, 10B+ rows processed." />
+
+	<!-- Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
 	<!-- Favicon -->
-	<link rel="shortcut icon" href="css/fav.png">
-	<style>
-		.socials a {
-			margin: 0 6px !important;
-		}
-		.fa {
-			padding: 2px;
-			font-size: 30px;
-			width: 30px;
-			text-align: center;
-			text-decoration: none;
-			margin: 5px 2px;
-			border-radius: 50%;
-		}
+	<link rel="icon" href="./favicon.svg" type="image/svg+xml" />
 
-		.fa:hover {
-			opacity: 0.7;
-		}
-
-		.fa-telegram {
-			background: white;
-			color: black;
-		}
-
-		.fa-twitter {
-			background: white;
-			color: black;
-		}
-
-		.fa-github {
-			background: white;
-			color: black;
-		}
-
-		.fa-linkedin {
-			background: white;
-			color: black;
-		}
-	</style>
-	
+	<!-- Structured data -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Person",
+		"name": "Manish Chalise",
+		"jobTitle": "Founding Engineer & Lead Software Engineer",
+		"url": "https://www.mchalise.com.np/",
+		"email": "mailto:mchalise@gmail.com",
+		"address": { "@type": "PostalAddress", "addressLocality": "Kathmandu", "addressCountry": "NP" },
+		"alumniOf": { "@type": "CollegeOrUniversity", "name": "Kathmandu University" },
+		"knowsAbout": ["Go", "Ruby on Rails", "Blockchain forensics", "Crypto tax", "AWS", "Distributed systems"],
+		"sameAs": [
+			"https://github.com/mchalise",
+			"https://www.linkedin.com/in/manish-chalise-a731076a/",
+			"https://x.com/crypt0_0x",
+			"https://t.me/mchalise"
+		]
+	}
+	</script>
 </head>
 
 <body>
-    
-	<!-- Page -->
-	<div class="page">
+	<a class="skip-link" href="#main">Skip to content</a>
 
-		<!-- Preloader -->
-		<div class="preloader">
-			<div class="centrize full-width">
-				<div class="vertical-center">
-					<div class="spinner">
-						<div class="double-bounce1"></div>
-						<div class="double-bounce2"></div>
-					</div>
+	<!-- 0 · Boot sequence (skippable, reduced-motion aware) -->
+	<div class="boot" id="boot" role="status" aria-label="Loading ledger">
+		<pre class="boot-log" id="boot-log"></pre>
+		<button class="boot-skip" id="boot-skip" type="button">skip [esc]</button>
+	</div>
+
+	<!-- Shared global canvas: the live hash-linked chain -->
+	<canvas class="chain-bg" id="chain-canvas" aria-hidden="true"></canvas>
+
+	<header class="site-header">
+		<div class="fw">
+			<a class="brand" href="#genesis">
+				<span class="brand-block" aria-hidden="true"></span>
+				mchalise<span class="accent">.ledger</span>
+			</a>
+			<nav class="site-nav" aria-label="Sections">
+				<ul>
+					<li><a href="#chain">01 chain</a></li>
+					<li><a href="#case-files">02 case&nbsp;files</a></li>
+					<li><a href="#verified">03 verified</a></li>
+					<li><a href="#artifacts">04 artifacts</a></li>
+					<li><a href="#signal">05 signal</a></li>
+				</ul>
+			</nav>
+			<button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false">
+				<span class="mt-icon" aria-hidden="true">▮▮</span>
+				<span class="mt-label">pause motion</span>
+			</button>
+		</div>
+	</header>
+
+	<main id="main">
+
+		<!-- 1 · Genesis / Hero -->
+		<section class="hero" id="genesis" aria-labelledby="hero-title">
+			<p class="hero-eyebrow">genesis block · height 000 · 2013 → 2025 · kathmandu / remote</p>
+			<h1 class="hero-title" id="hero-title">Manish<br />Chalise<span class="accent">.</span></h1>
+			<p class="hero-role">Founding engineer who scaled fintech through a $15M Series&nbsp;B.</p>
+			<p class="hero-sub">
+				Crypto tax, accounting &amp; federal blockchain forensics. Engineering lead for the platform
+				behind <strong>10B+ transaction rows</strong> and <strong>$50B+ in tracked customer assets</strong>.
+			</p>
+
+			<p class="status-chip">
+				<span class="pulse" aria-hidden="true"></span>
+				OPEN — staff/principal roles · founding teams · consulting
+			</p>
+
+			<div class="hero-actions">
+				<a class="btn btn-primary" href="./resume/ManishChaliseResume.pdf" download>↓ download résumé</a>
+				<a class="btn btn-ghost" href="#chain">explore the chain</a>
+			</div>
+
+			<ul class="socials" aria-label="Social links">
+				<li><a href="https://github.com/mchalise" target="_blank" rel="noopener">github</a></li>
+				<li><a href="https://www.linkedin.com/in/manish-chalise-a731076a/" target="_blank" rel="noopener">linkedin</a></li>
+				<li><a href="https://x.com/crypt0_0x" target="_blank" rel="noopener">x</a></li>
+				<li><a href="https://t.me/mchalise" target="_blank" rel="noopener">telegram</a></li>
+			</ul>
+		</section>
+
+		<!-- 2 · The Chain -->
+		<section class="section" id="chain" aria-labelledby="chain-title">
+			<header class="section-head" data-reveal>
+				<p class="section-index">01 / the chain</p>
+				<h2 class="section-title" id="chain-title">Every role is a block.</h2>
+				<p class="section-lede">
+					Hash-linked back to genesis, verifiable in order. Select a block to open its dossier.
+				</p>
+			</header>
+
+			<ol class="chain-list">
+				<!-- Block 001 -->
+				<li class="block" data-reveal>
+					<button class="block-card" type="button" data-dossier="dossier-001" aria-haspopup="dialog">
+						<span class="block-top">
+							<span class="block-height">#001</span>
+							<span class="block-time">apr 2013 – may 2014</span>
+						</span>
+						<span class="block-title">First Global Data</span>
+						<span class="block-role">Software Engineer · PHP · Toronto, ON / remote</span>
+						<span class="block-foot">
+							<code class="block-hash">3e9a41c7f0b2…</code>
+							<span class="block-prev">prev 00000000…</span>
+						</span>
+					</button>
+					<template id="dossier-001">
+						<article class="dossier-doc">
+							<header>
+								<h2>First Global Data</h2>
+								<p class="dossier-role">Software Engineer (PHP)</p>
+								<p class="dossier-meta">apr 2013 – may 2014 · Toronto, ON, Canada · remote</p>
+							</header>
+							<p class="dossier-summary">
+								First block on the chain — payments &amp; digital money integrations, wired through
+								SOAP/REST services and third-party API bridges.
+							</p>
+							<ul class="dossier-bullets">
+								<li>Developed REST and SOAP web services for <span class="redact">Digital Money</span> products.</li>
+								<li>Integrated third-party APIs into the FGM API architecture.</li>
+								<li>Wrote differential unit and functional test cases.</li>
+							</ul>
+							<p class="dossier-tags"><span>php</span><span>rest</span><span>soap</span><span>payments</span></p>
+						</article>
+					</template>
+				</li>
+
+				<!-- Block 002 -->
+				<li class="block" data-reveal>
+					<button class="block-card" type="button" data-dossier="dossier-002" aria-haspopup="dialog">
+						<span class="block-top">
+							<span class="block-height">#002</span>
+							<span class="block-time">may 2014 – oct 2015</span>
+						</span>
+						<span class="block-title">Epos IT</span>
+						<span class="block-role">Software Engineer · QA &amp; security · Kathmandu, Nepal</span>
+						<span class="block-foot">
+							<code class="block-hash">8c17be45d29f…</code>
+							<span class="block-prev">prev 3e9a41c7f0b2…</span>
+						</span>
+					</button>
+					<template id="dossier-002">
+						<article class="dossier-doc">
+							<header>
+								<h2>Epos IT</h2>
+								<p class="dossier-role">Software Engineer</p>
+								<p class="dossier-meta">may 2014 – oct 2015 · Kathmandu, Nepal</p>
+							</header>
+							<p class="dossier-summary">
+								Security audit, quality assurance and R&amp;D — shipping web applications for
+								government-sector clients.
+							</p>
+							<ul class="dossier-bullets">
+								<li>Security audit and quality assurance across delivered products.</li>
+								<li>Research and development of new tooling and practices.</li>
+								<li>Developed government-sector web applications.</li>
+							</ul>
+							<p class="dossier-tags"><span>qa</span><span>security</span><span>web apps</span></p>
+						</article>
+					</template>
+				</li>
+
+				<!-- Block 003 -->
+				<li class="block" data-reveal>
+					<button class="block-card" type="button" data-dossier="dossier-003" aria-haspopup="dialog">
+						<span class="block-top">
+							<span class="block-height">#003</span>
+							<span class="block-time">nov 2015 – sep 2017</span>
+						</span>
+						<span class="block-title">WhiteHat Engineering</span>
+						<span class="block-role">Freelance Developer · MEAN stack · remote</span>
+						<span class="block-foot">
+							<code class="block-hash">b42d7f906c1a…</code>
+							<span class="block-prev">prev 8c17be45d29f…</span>
+						</span>
+					</button>
+					<template id="dossier-003">
+						<article class="dossier-doc">
+							<header>
+								<h2>WhiteHat Engineering</h2>
+								<p class="dossier-role">Freelance Developer</p>
+								<p class="dossier-meta">nov 2015 – sep 2017 · contract · remote</p>
+							</header>
+							<p class="dossier-summary">
+								Contract years: full-stack MEAN work, and the first large-scale data-ingestion
+								engine — the same problem domain I'd later run at planetary scale.
+							</p>
+							<ul class="dossier-bullets">
+								<li>Spearheaded design and development of core modules — <span class="redact">95%</span> of the data-injection engine.</li>
+								<li>Facilitated integrations with <span class="redact">50+ exchanges and blockchains</span>.</li>
+								<li>Contributed to other vital company modules, ensuring robustness and scalability.</li>
+								<li>Worked on in-house MEAN-stack projects.</li>
+							</ul>
+							<p class="dossier-tags"><span>mean</span><span>node.js</span><span>ingestion</span><span>freelance</span></p>
+						</article>
+					</template>
+				</li>
+
+				<!-- Block 004 · ZenLedger / Platform -->
+				<li class="block block-zl" data-reveal>
+					<button class="block-card" type="button" data-dossier="dossier-004" aria-haspopup="dialog">
+						<span class="block-top">
+							<span class="block-height">#004</span>
+							<span class="block-time">2018 – 2025</span>
+						</span>
+						<span class="block-title">ZenLedger <span class="block-sub">/ platform</span></span>
+						<span class="block-role">Founding Engineer &amp; Lead Software Engineer · remote</span>
+						<span class="block-foot">
+							<code class="block-hash">05fa93c17b2e…</code>
+							<span class="block-prev">prev b42d7f906c1a…</span>
+						</span>
+					</button>
+					<template id="dossier-004">
+						<article class="dossier-doc">
+							<header>
+								<h2>ZenLedger <span class="accent">/ platform</span></h2>
+								<p class="dossier-role">Founding Engineer &amp; Lead Software Engineer</p>
+								<!-- PLACEHOLDER: canonical dates per owner = 2018–2025; older résumé PDF says Nov 2017 – Sep 2023 -->
+								<p class="dossier-meta">2018 – 2025 · remote · joined at startup stage, scaled through $15M Series B</p>
+							</header>
+							<p class="dossier-summary">
+								Fintech platform for crypto tax, accounting and regulatory reporting.
+								Led engineering standards, delivery and architecture across teams.
+							</p>
+							<ul class="dossier-bullets">
+								<li>Led an engineering team of up to <span class="redact">15</span>: standards, delivery timelines, architecture and specification reviews across teams.</li>
+								<li>Owned the financial data ingestion platform integrating <span class="redact">100+ exchanges and blockchains</span> — <span class="redact">10B+ transaction rows</span>, <span class="redact">$50B+ customer assets</span>, <span class="redact">100K+ customers</span>.</li>
+								<li>Drove the monitoring &amp; incident path: Datadog alert rules escalating to the on-call engineer, Honeybadger error reporting, and runbooks so triage didn't depend on tribal knowledge.</li>
+								<li>Rewrote the tax calculation service from Rails/Sidekiq to Go: <span class="redact">70% less compute</span> for the same workload, running <span class="redact">60% faster</span>.</li>
+								<li>Built and operated the payment system; designed autoscaling AWS infrastructure matched to highly seasonal demand.</li>
+							</ul>
+							<p class="dossier-tags"><span>rails</span><span>go</span><span>aws</span><span>leadership</span></p>
+							<!-- PLACEHOLDER: "many more" ZenLedger bullets promised by owner — append when sent -->
+						</article>
+					</template>
+				</li>
+
+				<!-- Block 005 · ZenLedger / BATS Federal -->
+				<li class="block block-zl" data-reveal>
+					<button class="block-card" type="button" data-dossier="dossier-005" aria-haspopup="dialog">
+						<span class="block-top">
+							<span class="block-height">#005</span>
+							<span class="block-time">federal contract</span>
+						</span>
+						<span class="block-title">ZenLedger <span class="block-sub">/ BATS federal</span></span>
+						<span class="block-role">Engineering Lead · crypto forensics</span>
+						<span class="block-foot">
+							<code class="block-hash">d6e21b8f4a9c…</code>
+							<span class="block-prev">prev 05fa93c17b2e…</span>
+						</span>
+					</button>
+					<template id="dossier-005">
+						<article class="dossier-doc">
+							<header>
+								<h2>ZenLedger <span class="accent">/ BATS federal</span></h2>
+								<p class="dossier-role">Engineering Lead — crypto forensics</p>
+								<p class="dossier-meta">agency-scoped authorization · PII segregation · multi-year federal contract</p>
+							</header>
+							<p class="dossier-summary">
+								Engineering lead for the government crypto-forensics product used by
+								<span class="redact">IRS Criminal and Civil Investigation units</span>.
+							</p>
+							<ul class="dossier-bullets">
+								<li>Built the training-data pipeline for address attribution: <span class="redact">827K labelled addresses across 29 classes</span>, derived from replica Bitcoin and Ethereum node indexes.</li>
+								<li>Ran the trained classifier across <span class="redact">every block</span>.</li>
+								<li>Agency-scoped authorization and PII segregation across case records.</li>
+							</ul>
+							<p class="dossier-tags"><span>forensics</span><span>ml pipeline</span><span>bitcoin</span><span>ethereum</span></p>
+							<!-- PLACEHOLDER: NDA-safe screenshots / extra detail pending owner review -->
+						</article>
+					</template>
+				</li>
+
+				<!-- Block 006 · ZenLedger / Payments & Infra -->
+				<li class="block block-zl" data-reveal>
+					<button class="block-card" type="button" data-dossier="dossier-006" aria-haspopup="dialog">
+						<span class="block-top">
+							<span class="block-height">#006</span>
+							<span class="block-time">ongoing</span>
+						</span>
+						<span class="block-title">ZenLedger <span class="block-sub">/ payments &amp; infra</span></span>
+						<span class="block-role">Payments · autoscaling · observability</span>
+						<span class="block-foot">
+							<code class="block-hash">9b5c0e37a1d8…</code>
+							<span class="block-prev">prev d6e21b8f4a9c…</span>
+						</span>
+					</button>
+					<template id="dossier-006">
+						<article class="dossier-doc">
+							<header>
+								<h2>ZenLedger <span class="accent">/ payments &amp; infra</span></h2>
+								<p class="dossier-role">Payments, autoscaling &amp; observability owner</p>
+								<p class="dossier-meta">within 2018 – 2025 tenure</p>
+							</header>
+							<p class="dossier-summary">
+								The unglamorous half of founding: money moving, capacity matching demand, and
+								waking the right human at the right minute.
+							</p>
+							<ul class="dossier-bullets">
+								<li>Built and operated the payment system end-to-end.</li>
+								<li>Designed autoscaling AWS infrastructure matching capacity to highly seasonal demand (tax season cliffs).</li>
+								<li>Datadog → on-call escalation, Honeybadger error reporting, runbooks for tribal-knowledge-free triage.</li>
+							</ul>
+							<p class="dossier-tags"><span>payments</span><span>autoscaling</span><span>datadog</span><span>on-call</span></p>
+						</article>
+					</template>
+				</li>
+			</ol>
+		</section>
+
+		<!-- 3 · Case Files -->
+		<section class="section" id="case-files" aria-labelledby="cases-title">
+			<header class="section-head" data-reveal>
+				<p class="section-index">02 / case files</p>
+				<h2 class="section-title" id="cases-title">Three investigations.</h2>
+				<p class="section-lede">
+					Decrypted exhibits from the ZenLedger tenure — the work behind the block.
+				</p>
+			</header>
+
+			<div class="case-grid">
+				<article class="case-file" data-reveal>
+					<p class="case-no">case-001 <span class="case-flag">federal · multi-year</span></p>
+					<h3 class="case-title">Address attribution for federal investigators</h3>
+					<p class="case-body">
+						ZenLedger's government crypto-forensics product, used by IRS Criminal and Civil
+						Investigation units under a multi-year federal contract — with agency-scoped
+						authorization and PII segregation across case records.
+					</p>
+					<dl class="exhibits">
+						<div><dt>labelled addresses</dt><dd>827K</dd></div>
+						<div><dt>attribution classes</dt><dd>29</dd></div>
+						<div><dt>source indexes</dt><dd>BTC + ETH replicas</dd></div>
+						<div><dt>coverage</dt><dd>every block</dd></div>
+					</dl>
+					<p class="case-note">Built the training-data pipeline, then ran the trained classifier across the whole chain.</p>
+					<!-- PLACEHOLDER: NDA-safe screenshots / architecture diagram pending owner review -->
+				</article>
+
+				<article class="case-file" data-reveal>
+					<p class="case-no">case-002 <span class="case-flag">scale</span></p>
+					<h3 class="case-title">Ingestion for 100+ exchanges &amp; blockchains</h3>
+					<p class="case-body">
+						The financial data ingestion and parsing platform — normalizing wildly inconsistent
+						exchange and chain formats into one ledger of record, and keeping it correct as volume grew.
+					</p>
+					<dl class="exhibits">
+						<div><dt>sources integrated</dt><dd>100+</dd></div>
+						<div><dt>transaction rows</dt><dd>10B+</dd></div>
+						<div><dt>customer assets tracked</dt><dd>$50B+</dd></div>
+						<div><dt>customers</dt><dd>100K+</dd></div>
+					</dl>
+					<p class="case-note">
+						Supporting files: payment system built &amp; operated · Datadog → on-call escalation,
+						Honeybadger, runbooks · autoscaling AWS matched to seasonal tax-season demand.
+					</p>
+				</article>
+
+				<article class="case-file" data-reveal>
+					<p class="case-no">case-003 <span class="case-flag">rewrite</span></p>
+					<h3 class="case-title">Tax calculation, rewritten in Go</h3>
+					<p class="case-body">
+						The tax calculation service, rebuilt from Rails/Sidekiq to a purpose-built Go service —
+						same workload, radically less machine.
+					</p>
+					<dl class="exhibits">
+						<div><dt>compute</dt><dd>-70%</dd></div>
+						<div><dt>speed</dt><dd>+60%</dd></div>
+						<div><dt>workload</dt><dd>unchanged</dd></div>
+						<div><dt>from → to</dt><dd>Rails → Go</dd></div>
+					</dl>
+					<p class="case-note">Chosen because tax season traffic is a cliff, not a slope — you pay for the peak either way.</p>
+				</article>
+			</div>
+		</section>
+
+		<!-- 4 · Verified -->
+		<section class="section" id="verified" aria-labelledby="verified-title">
+			<header class="section-head" data-reveal>
+				<p class="section-index">03 / verified</p>
+				<h2 class="section-title" id="verified-title">Proof of work.</h2>
+				<p class="section-lede">Numbers that were on the dashboard, not in the pitch deck.</p>
+			</header>
+
+			<ul class="stat-wall">
+				<li class="stat" data-reveal>
+					<strong class="stat-num" data-count="50" data-prefix="$" data-suffix="B+">$50B+</strong>
+					<span class="stat-label">customer assets tracked</span>
+				</li>
+				<li class="stat" data-reveal>
+					<strong class="stat-num" data-count="10" data-suffix="B+">10B+</strong>
+					<span class="stat-label">transaction rows processed</span>
+				</li>
+				<li class="stat" data-reveal>
+					<strong class="stat-num" data-count="100" data-suffix="+">100+</strong>
+					<span class="stat-label">exchanges &amp; chains ingested</span>
+				</li>
+				<li class="stat" data-reveal>
+					<strong class="stat-num" data-count="100" data-suffix="K+">100K+</strong>
+					<span class="stat-label">customers served</span>
+				</li>
+				<li class="stat" data-reveal>
+					<strong class="stat-num" data-count="827" data-suffix="K">827K</strong>
+					<span class="stat-label">addresses labelled · 29 classes</span>
+				</li>
+				<li class="stat" data-reveal>
+					<strong class="stat-num" data-count="15">15</strong>
+					<span class="stat-label">engineers led</span>
+				</li>
+				<li class="stat" data-reveal>
+					<strong class="stat-num" data-count="15" data-prefix="$" data-suffix="M">$15M</strong>
+					<span class="stat-label">Series B scaled through</span>
+				</li>
+				<li class="stat" data-reveal>
+					<strong class="stat-num" data-count="70" data-prefix="-" data-suffix="%">-70%</strong>
+					<span class="stat-label">compute on the Go rewrite</span>
+				</li>
+			</ul>
+		</section>
+
+		<!-- 5 · Artifacts -->
+		<section class="section" id="artifacts" aria-labelledby="artifacts-title">
+			<header class="section-head" data-reveal>
+				<p class="section-index">04 / artifacts</p>
+				<h2 class="section-title" id="artifacts-title">Recovered artifacts.</h2>
+				<p class="section-lede">Toolchain, side projects and sealed certifications.</p>
+			</header>
+
+			<div class="artifact-cols">
+				<div class="artifact-block" data-reveal>
+					<h3 class="artifact-h">toolchain</h3>
+					<p class="toolchain">
+						<span>Go</span><span>Ruby on Rails</span><span>React</span><span>Next.js</span>
+						<span>Node.js</span><span>JavaScript</span><span>TypeScript</span><span>PHP</span>
+						<span>Bash</span><span>Solidity</span><span>Express</span><span>AWS</span>
+						<span>PostgreSQL</span><span>Quality Assurance</span>
+					</p>
 				</div>
+
+				<div class="artifact-block" data-reveal>
+					<h3 class="artifact-h">projects</h3>
+					<ul class="artifact-list">
+						<li>
+							<strong>InvestReady</strong> — investor eligibility verification for online equity
+							investments (Laravel).
+						</li>
+						<li>
+							<strong>In-house MEAN products</strong> — full-stack platform work at WhiteHat Engineering.
+						</li>
+						<!-- PLACEHOLDER: more repos / OSS contributions to feature once owner curates github.com/mchalise -->
+					</ul>
+				</div>
+
+				<div class="artifact-block" data-reveal>
+					<h3 class="artifact-h">certifications</h3>
+					<p class="certs">
+						<span class="cert">series b bootcamp — secured</span>
+						<span class="cert">seed round — secured</span>
+					</p>
+					<p class="artifact-links">
+						<a href="https://github.com/mchalise" target="_blank" rel="noopener">github.com/mchalise →</a>
+						<a href="https://x.com/crypt0_0x" target="_blank" rel="noopener">x.com/crypt0_0x →</a>
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- 6 · Signal -->
+		<section class="section section-signal" id="signal" aria-labelledby="signal-title">
+			<header class="section-head" data-reveal>
+				<p class="section-index">05 / signal</p>
+				<h2 class="section-title" id="signal-title">Transmit.</h2>
+				<p class="section-lede">Pick an intent — the message is pre-filled and routed straight to me.</p>
+			</header>
+
+			<fieldset class="intents" data-reveal>
+				<legend class="visually-hidden">Why are you reaching out?</legend>
+				<label class="intent">
+					<input type="radio" name="intent" value="hiring" checked />
+					<span class="intent-body">
+						<span class="intent-title">Hiring</span>
+						<span class="intent-desc">staff / principal engineering roles</span>
+					</span>
+				</label>
+				<label class="intent">
+					<input type="radio" name="intent" value="founding" />
+					<span class="intent-body">
+						<span class="intent-title">Building</span>
+						<span class="intent-desc">founding team / consulting engagement</span>
+					</span>
+				</label>
+				<label class="intent">
+					<input type="radio" name="intent" value="freelance" />
+					<span class="intent-body">
+						<span class="intent-title">Freelance</span>
+						<span class="intent-desc">project-based work</span>
+					</span>
+				</label>
+			</fieldset>
+
+			<div class="signal-actions" data-reveal>
+				<button class="btn btn-primary" id="signal-send" type="button">open encrypted channel ↗</button>
+				<p class="signal-direct">
+					or direct: <a href="mailto:mchalise@gmail.com">mchalise@gmail.com</a> ·
+					<a href="https://www.linkedin.com/in/manish-chalise-a731076a/" target="_blank" rel="noopener">linkedin</a>
+					<!-- PLACEHOLDER: phone withheld by default — confirm before publishing -->
+				</p>
+			</div>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<div class="fw footer-grid">
+			<div>
+				<p class="footer-brand">mchalise<span class="accent">.ledger</span></p>
+				<p class="footer-note">The Chalise Ledger — a forensic explorer of one career chain.<br />
+				Built with Vite + vanilla TypeScript. No frameworks were harmed.</p>
+			</div>
+			<div class="footer-right">
+				<button class="pager" id="pager" type="button" title="page the on-call engineer">
+					<span class="pager-icon" aria-hidden="true">🔔</span>
+					<span>page on-call</span>
+				</button>
+				<p class="footer-copy">© <span id="year">2026</span> Manish Chalise · Kathmandu / remote</p>
 			</div>
 		</div>
+	</footer>
 
-		<header class="header">
-			<div class="fw">
-				<div class="logo">
-					<a href="#">Manish Chalise</a>
-				</div>
-				<a href="index-particles.html#" class="menu-btn"><span></span></a>
-				<div class="top-menu">
-					
-				</div>
-			</div>
-		</header>
-		
-		<!-- Container -->
-		<div class="container">
-
-			<!-- Section Started -->
-			<div class="section started">
-				<div id="particles-bg" class="slide" style="background-image: url(https://wallpaperaccess.com/full/832357.jpg);"></div>
-				<div class="centrize full-width">
-					<div class="vertical-center">
-						<div class="st-title align-center" style="margin-bottom: 315px;">
-							<div class="typing-title">
-								<p>Freelancer</p>
-								<p>Developer</p>
-								<p>Product Lead</p>
-								<p>Cryptocurrency</p>
-								<p>Blockchain</p>
-								<p>Smart Contract</p>
-								<p>DeFi DApp DAO</p>
-								<p>IPFS IPNS</p>
-								<p>FinTech</p>
-								<p>Web3</p>
-								<p>Digital Money</p>
-								<p>Crypto Taxes</p>
-							</div>
-							<span class="typed-title"></span>
-						</div>
-						<div class="socials">
-							<a href="https://github.com/mchalise" target="_blank" class="fa fa-github"></a>
-							<a href="https://www.linkedin.com/in/manish-chalise-a731076a/" target="_blank" class="fa fa-linkedin"></a>
-							<a href="https://t.me/mchalise" target="_blank" class="fa fa-telegram"></a>
-						</div>
-					</div>
-				</div>
-			</div>
+	<!-- Dossier drawer -->
+	<div class="dossier" id="dossier" role="dialog" aria-modal="true" aria-labelledby="dossier-title" hidden>
+		<div class="dossier-backdrop" data-dossier-close></div>
+		<div class="dossier-panel" role="document">
+			<header class="dossier-bar">
+				<p class="dossier-eyebrow" id="dossier-eyebrow">block dossier</p>
+				<button class="dossier-close" type="button" data-dossier-close aria-label="Close dossier">✕</button>
+			</header>
+			<div class="dossier-body" id="dossier-body"></div>
+			<footer class="dossier-nav">
+				<button class="dossier-step" type="button" id="dossier-prev">← prev block</button>
+				<span class="dossier-pos" id="dossier-pos"></span>
+				<button class="dossier-step" type="button" id="dossier-next">next block →</button>
+			</footer>
 		</div>
 	</div>
-	
-	<!-- jQuery Scripts -->
-	<script src="js/jquery.min.js"></script>
-	<script src="js/jquery.validate.js"></script>
-	<script src="js/masonry.pkgd.js"></script>
-	<script src="js/imagesloaded.pkgd.js"></script>
-	<script src="js/masonry-filter.js"></script>
-	<script src="js/magnific-popup.js"></script>
-	<script src="js/jquery.mb.YTPlayer.js"></script>
-	<script src="js/particles.js"></script>
-	<script src="js/typed.js"></script>
-	<script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
-	
-	<!-- Main Scripts -->
-	<script src="js/main.js"></script>
-	<script src="js/particles-setting.js"></script>
-	
+
+	<!-- Toast region (pager easter egg) -->
+	<div class="toast-region" id="toast-region" aria-live="assertive" aria-atomic="false"></div>
+
+	<noscript>
+		<p style="position:fixed;bottom:0;left:0;right:0;padding:12px;background:#1a1206;color:#ffb454;font-family:monospace;text-align:center;z-index:999">
+			JavaScript is off — the interactive dossier is disabled, but all content above is readable.
+		</p>
+	</noscript>
+
+	<script type="module" src="/src/main.ts"></script>
 </body>
 </html>

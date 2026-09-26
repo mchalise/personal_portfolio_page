@@ -1,0 +1,280 @@
+/* ============================================================
+   Dossier drawer, redaction reveal, toasts.
+   ============================================================ */
+.dossier {
+	position: fixed;
+	inset: 0;
+	z-index: 120;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.dossier[hidden] {
+	display: none;
+}
+
+.dossier-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(3, 6, 7, 0.72);
+	backdrop-filter: blur(3px);
+	opacity: 0;
+	transition: opacity 0.35s var(--ease);
+}
+
+.dossier.is-open .dossier-backdrop {
+	opacity: 1;
+}
+
+.dossier-panel {
+	position: relative;
+	width: min(560px, 100%);
+	height: 100%;
+	background: var(--bg-raise);
+	border-left: 1px solid var(--line-strong);
+	display: flex;
+	flex-direction: column;
+	transform: translateX(100%);
+	transition: transform 0.45s var(--ease);
+	box-shadow: -30px 0 80px rgba(0, 0, 0, 0.5);
+}
+
+.dossier.is-open .dossier-panel {
+	transform: none;
+}
+
+@media (max-width: 640px) {
+	.dossier-panel {
+		width: 100%;
+		border-left: 0;
+	}
+}
+
+.dossier-bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1rem 1.4rem;
+	border-bottom: 1px solid var(--line);
+}
+
+.dossier-eyebrow {
+	font-size: 0.68rem;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--amber);
+}
+
+.dossier-close {
+	background: var(--surface);
+	border: 1px solid var(--line);
+	color: var(--text-dim);
+	width: 34px;
+	height: 34px;
+	border-radius: var(--radius-sm);
+	cursor: pointer;
+	font-size: 0.9rem;
+	line-height: 1;
+	transition: color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.dossier-close:hover {
+	color: var(--text);
+	border-color: var(--accent);
+	transform: rotate(90deg);
+}
+
+.dossier-body {
+	padding: 1.6rem 1.4rem;
+	overflow-y: auto;
+	flex: 1;
+}
+
+.dossier-doc h2 {
+	font-size: clamp(1.6rem, 5vw, 2.2rem);
+	font-weight: 700;
+	margin-bottom: 0.5rem;
+}
+
+.dossier-role {
+	color: var(--accent);
+	font-size: 0.88rem;
+}
+
+.dossier-meta {
+	color: var(--text-faint);
+	font-size: 0.74rem;
+	margin-top: 0.3rem;
+}
+
+.dossier-summary {
+	margin-top: 1.2rem;
+	color: var(--text-dim);
+	font-size: 0.88rem;
+}
+
+.dossier-bullets {
+	margin: 1.2rem 0 0;
+	padding: 0;
+	list-style: none;
+	display: grid;
+	gap: 0.85rem;
+	font-size: 0.86rem;
+	color: var(--text-dim);
+}
+
+.dossier-bullets li {
+	padding-left: 1.2rem;
+	position: relative;
+}
+
+.dossier-bullets li::before {
+	content: "▸";
+	position: absolute;
+	left: 0;
+	color: var(--accent);
+}
+
+.dossier-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.45rem;
+	margin-top: 1.5rem;
+}
+
+.dossier-tags span {
+	font-size: 0.68rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	padding: 0.3rem 0.65rem;
+	color: var(--text-faint);
+}
+
+/* ---------- Redaction reveal ----------
+   Wrap-safe: the black bar is the span's own background, so it
+   paints per line fragment — long phrases can't overflow the
+   drawer on mobile. Text stays in the DOM (selectable, read by
+   screen readers) and fades in as the bar slides off. */
+.redact {
+	color: transparent;
+	background-image: linear-gradient(var(--redact), var(--redact));
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	box-shadow: 0 0 0 1px rgba(79, 240, 193, 0.35);
+	transition:
+		background-size 0.5s var(--ease),
+		color 0.01s linear,
+		box-shadow 0.3s linear;
+	transition-delay:
+		var(--rd-delay, 0.35s),
+		var(--rd-delay, 0.35s),
+		calc(var(--rd-delay, 0.35s) + 0.35s);
+}
+
+.dossier.is-open .redact {
+	color: var(--text);
+	background-size: 0 100%;
+	box-shadow: none;
+}
+
+/* stagger the reveal */
+.dossier.is-open .redact:nth-of-type(1) { --rd-delay: 0.35s; }
+.dossier.is-open li:nth-child(1) .redact { --rd-delay: 0.45s; }
+.dossier.is-open li:nth-child(2) .redact { --rd-delay: 0.62s; }
+.dossier.is-open li:nth-child(3) .redact { --rd-delay: 0.79s; }
+.dossier.is-open li:nth-child(4) .redact { --rd-delay: 0.96s; }
+.dossier.is-open li:nth-child(5) .redact { --rd-delay: 1.13s; }
+
+/* ---------- Dossier footer nav ---------- */
+.dossier-nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1rem 1.4rem;
+	border-top: 1px solid var(--line);
+	background: var(--surface);
+}
+
+.dossier-step {
+	background: none;
+	border: 1px solid var(--line);
+	color: var(--text-dim);
+	font-family: var(--font-mono);
+	font-size: 0.74rem;
+	padding: 0.5rem 0.9rem;
+	border-radius: var(--radius-sm);
+	cursor: pointer;
+	transition: color 0.2s, border-color 0.2s;
+}
+
+.dossier-step:hover:not(:disabled) {
+	color: var(--accent);
+	border-color: var(--accent);
+}
+
+.dossier-step:disabled {
+	opacity: 0.35;
+	cursor: not-allowed;
+}
+
+.dossier-pos {
+	font-size: 0.7rem;
+	color: var(--text-faint);
+	letter-spacing: 0.1em;
+}
+
+/* ---------- Toasts (pager easter egg) ---------- */
+.toast-region {
+	position: fixed;
+	right: 1.2rem;
+	bottom: 1.2rem;
+	z-index: 140;
+	display: flex;
+	flex-direction: column;
+	gap: 0.7rem;
+	pointer-events: none;
+	max-width: min(360px, calc(100vw - 2.4rem));
+}
+
+.toast {
+	background: #1a1206;
+	border: 1px solid rgba(255, 180, 84, 0.6);
+	border-left: 4px solid var(--amber);
+	border-radius: var(--radius-sm);
+	padding: 0.9rem 1.1rem;
+	font-family: var(--font-mono);
+	font-size: 0.76rem;
+	color: var(--amber);
+	box-shadow: 0 16px 50px rgba(0, 0, 0, 0.55);
+	transform: translateY(14px);
+	opacity: 0;
+	transition: transform 0.4s var(--ease), opacity 0.4s var(--ease);
+}
+
+.toast.is-in {
+	transform: none;
+	opacity: 1;
+}
+
+.toast .toast-title {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-size: 0.66rem;
+	margin-bottom: 0.4rem;
+}
+
+.toast .toast-body {
+	color: #ffd9a1;
+}
+
+.toast .toast-dim {
+	color: rgba(255, 217, 161, 0.55);
+}

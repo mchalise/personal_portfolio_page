@@ -1,0 +1,41 @@
+/* ============================================================
+   Design tokens — near-black base, mint/cyan chain accent,
+   amber alerts, display + mono type.
+   ============================================================ */
+:root {
+	/* surfaces */
+	--bg: #06090a;
+	--bg-raise: #0a0f11;
+	--surface: #0e1417;
+	--surface-2: #121a1e;
+	--line: rgba(148, 197, 184, 0.14);
+	--line-strong: rgba(148, 197, 184, 0.3);
+
+	/* ink */
+	--text: #e7f1ed;
+	--text-dim: #8fa39b;
+	--text-faint: #5c6d67;
+
+	/* accents */
+	--accent: #4ff0c1;
+	--accent-soft: rgba(79, 240, 193, 0.14);
+	--accent-glow: rgba(79, 240, 193, 0.35);
+	--amber: #ffb454;
+	--amber-soft: rgba(255, 180, 84, 0.12);
+	--redact: #050708;
+
+	/* type */
+	--font-display: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+	--font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	/* rhythm */
+	--gap: clamp(1rem, 3vw, 2rem);
+	--section-y: clamp(4rem, 12vh, 8rem);
+	--fw: min(1120px, 100% - 2.5rem);
+	--radius: 10px;
+	--radius-sm: 6px;
+
+	/* motion */
+	--ease: cubic-bezier(0.22, 1, 0.36, 1);
+	--dur: 0.55s;
+}
