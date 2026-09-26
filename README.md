@@ -25,8 +25,11 @@ npm run typecheck  # typecheck only
 ## Deploy
 
 - Any static host: publish the `dist/` folder.
-- GitHub Pages: `.github/workflows/deploy.yml` builds and deploys on push to `main`
-  (enable it once: **Settings → Pages → Source: GitHub Actions**).
+- **This repo deploys via Vercel** (site: `mchalise.com.np`): pushes to `main` build
+  `dist/` and go live automatically. Build settings live in Vercel — Node 22.x,
+  framework auto-detected (Vite) → output `dist/`.
+- GitHub Pages mirror (optional): enable **Settings → Pages → Source: GitHub Actions**,
+  then run the `Deploy to GitHub Pages` workflow manually from the Actions tab.
 - Custom domain `mchalise.com.np`: point DNS at whatever host serves `dist/`.
 
 ## Content placeholders (owner TODO)

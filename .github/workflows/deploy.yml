@@ -1,8 +1,9 @@
 name: Deploy to GitHub Pages
 
+# Manual-only: this repo deploys to production via Vercel (mchalise.com.np).
+# Enable Settings → Pages → Source: GitHub Actions, then run this by hand
+# if you ever want a github.io mirror — auto-run would just fail until then.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
