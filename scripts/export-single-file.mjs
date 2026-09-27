@@ -59,6 +59,6 @@ if (leftovers) {
 }
 
 mkdirSync(resolve(root, "export"), { recursive: true });
-const out = resolve(root, "export", "Manish-Chalise-Ledger.html");
+const out = resolve(root, "export", "Manish-Chalise-Island.html");
 writeFileSync(out, html);
 console.log(`✓ ${out} — ${kb(statSync(out).size)}`);

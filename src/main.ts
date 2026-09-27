@@ -1,22 +1,24 @@
+/* ============================================================
+   Entry — boot the island.
+   ============================================================ */
 import "./styles/tokens.css";
 import "./styles/base.css";
-import "./styles/sections.css";
+import "./styles/island.css";
 import "./styles/dossier.css";
 
 import { initBoot } from "./boot";
-import { initCanvas } from "./canvas";
-import { initChain } from "./chain";
+import { initIsland } from "./island";
+import { initDossier } from "./dossier";
 import { initCounters, initReveal } from "./sections";
+import { initSignal } from "./signal";
 import { initMotionToggle } from "./motion";
-import { initPager, initSignal } from "./signal";
 
 initBoot();
-initCanvas();
-initChain();
+initIsland();
+initDossier();
 initReveal();
 initCounters();
 initSignal();
-initPager();
 initMotionToggle();
 
 const year = document.getElementById("year");

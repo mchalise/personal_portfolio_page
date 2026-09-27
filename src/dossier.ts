@@ -1,16 +1,20 @@
 /* ============================================================
-   The Chain — block cards open a dossier drawer. Content is
-   cloned from <template> nodes already in the HTML (SEO +
-   no-JS friendly). Keyboard: Esc closes, Tab is trapped,
-   prev/next walks the chain.
+   Dossier drawer — career-stop detail panel. Content is cloned
+   from <template> nodes in the HTML (SEO + no-JS friendly).
+   The 3D island opens it via the "island:open-dossier" event;
+   the overlay buttons open it through the island (camera flies).
+   Keyboard: Esc closes, focus is trapped, prev/next walks stops.
    ============================================================ */
 
-interface Trigger {
-	btn: HTMLButtonElement;
-	templateId: string;
-}
+const REGISTRY = [
+	{ id: "eb-pearls", templateId: "dossier-eb-pearls", label: "EB Pearls" },
+	{ id: "fgd", templateId: "dossier-fgd", label: "First Global Data" },
+	{ id: "eepos", templateId: "dossier-eepos", label: "Eepos IT / InvestReady" },
+	{ id: "whitehat", templateId: "dossier-whitehat", label: "WhiteHat Engineering" },
+	{ id: "zenledger", templateId: "dossier-zenledger", label: "ZenLedger" },
+	{ id: "bats", templateId: "dossier-bats", label: "ZenLedger / BATS federal" },
+] as const;
 
-let triggers: Trigger[] = [];
 let current = -1;
 let lastFocus: HTMLElement | null = null;
 
@@ -22,7 +26,7 @@ let prevBtn: HTMLButtonElement;
 let nextBtn: HTMLButtonElement;
 let closeBtn: HTMLButtonElement;
 
-export function initChain(): void {
+export function initDossier(): void {
 	dossier = document.getElementById("dossier")!;
 	body = document.getElementById("dossier-body")!;
 	eyebrow = document.getElementById("dossier-eyebrow")!;
@@ -31,22 +35,21 @@ export function initChain(): void {
 	nextBtn = document.getElementById("dossier-next") as HTMLButtonElement;
 	closeBtn = dossier.querySelector<HTMLButtonElement>(".dossier-close")!;
 
-	triggers = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-dossier]")).map((btn) => ({
-		btn,
-		templateId: btn.dataset.dossier ?? "",
-	}));
-
-	triggers.forEach((t, i) => t.btn.addEventListener("click", () => open(i)));
 	dossier.querySelectorAll("[data-dossier-close]").forEach((el) => el.addEventListener("click", close));
-	prevBtn.addEventListener("click", () => open(current - 1));
-	nextBtn.addEventListener("click", () => open(current + 1));
+	prevBtn.addEventListener("click", () => openByIndex(current - 1));
+	nextBtn.addEventListener("click", () => openByIndex(current + 1));
 	document.addEventListener("keydown", onKeydown);
+	document.addEventListener("island:open-dossier", (e) => {
+		const id = (e as CustomEvent<string>).detail;
+		const index = REGISTRY.findIndex((r) => r.id === id);
+		if (index >= 0) openByIndex(index);
+	});
 }
 
-function open(index: number): void {
-	if (index < 0 || index >= triggers.length) return;
-	const { btn, templateId } = triggers[index];
-	const tpl = document.getElementById(templateId);
+function openByIndex(index: number): void {
+	if (index < 0 || index >= REGISTRY.length) return;
+	const entry = REGISTRY[index];
+	const tpl = document.getElementById(entry.templateId);
 	if (!(tpl instanceof HTMLTemplateElement)) return;
 
 	const wasClosed = dossier.hasAttribute("hidden");
@@ -56,20 +59,18 @@ function open(index: number): void {
 	const h2 = body.querySelector("h2");
 	if (h2) h2.id = "dossier-title";
 
-	eyebrow.textContent = `block ${pad(index + 1)} / ${pad(triggers.length)} · dossier`;
-	pos.textContent = `${index + 1} / ${triggers.length}`;
+	eyebrow.textContent = `${entry.label.toLowerCase()} · dossier`;
+	pos.textContent = `${index + 1} / ${REGISTRY.length}`;
 	prevBtn.disabled = index === 0;
-	nextBtn.disabled = index === triggers.length - 1;
+	nextBtn.disabled = index === REGISTRY.length - 1;
 	body.scrollTop = 0;
 	current = index;
 
 	if (wasClosed) {
-		lastFocus = (document.activeElement as HTMLElement | null) ?? btn;
+		lastFocus = (document.activeElement as HTMLElement | null) ?? closeBtn;
 		dossier.removeAttribute("hidden");
-		// Force layout so the enter transition runs.
 		void dossier.offsetWidth;
 	}
-	// Restart the redaction reveal for this dossier.
 	dossier.classList.remove("is-open");
 	void dossier.offsetWidth;
 	dossier.classList.add("is-open");
@@ -86,7 +87,7 @@ function close(): void {
 		if (!dossier.classList.contains("is-open")) dossier.setAttribute("hidden", "");
 	};
 	dossier.addEventListener("transitionend", settle, { once: true });
-	window.setTimeout(settle, 600); // fallback if no transition fires
+	window.setTimeout(settle, 600);
 	lastFocus?.focus({ preventScroll: true });
 	lastFocus = null;
 	current = -1;
@@ -119,8 +120,4 @@ function onKeydown(e: KeyboardEvent): void {
 		e.preventDefault();
 		first.focus();
 	}
-}
-
-function pad(n: number): string {
-	return String(n).padStart(3, "0");
 }

@@ -1,29 +1,30 @@
 /* ============================================================
-   Boot sequence — ~1.5s console init, skippable (esc / click),
+   Boot sequence — ~1.4s island survey, skippable (esc / click),
    skipped entirely under prefers-reduced-motion.
    ============================================================ */
 import { prefersReducedMotion } from "./motion";
 
 const LINES: Array<{ text: string; cls: string }> = [
-	{ text: "$ ledger verify --chain mchalise", cls: "" },
-	{ text: "» genesis hash 00000000…a1f3 found", cls: "dim" },
-	{ text: "» linking blocks 2013 → 2025 …", cls: "" },
-	{ text: "» 6 blocks linked · 0 orphans", cls: "dim" },
-	{ text: "» case files decrypted ✓", cls: "" },
-	{ text: "» forensic console ready ▸", cls: "warn" },
+	{ text: "$ island survey --archipelago mchalise", cls: "" },
+	{ text: "» scanning coastlines 2013 → 2025 …", cls: "dim" },
+	{ text: "» 6 career stops charted · 1 live product", cls: "" },
+	{ text: "» federal annex located (clearance verified) ✓", cls: "dim" },
+	{ text: "» lampposts lit · bell armed", cls: "" },
+	{ text: "» landing craft ready ▸", cls: "warn" },
 ];
 
 export function initBoot(): void {
 	const boot = document.getElementById("boot");
-	const log = document.getElementById("boot-log");
-	if (!boot || !log) return;
+	if (!boot) return;
+	const log = boot.querySelector<HTMLElement>(".boot-log");
+	if (!log) return;
 
 	// Reduced motion (or an interrupted session) → no boot theatrics.
-	if (prefersReducedMotion() || sessionStorage.getItem("ledger:booted") === "1") {
+	if (prefersReducedMotion() || sessionStorage.getItem("island:booted") === "1") {
 		boot.remove();
 		return;
 	}
-	sessionStorage.setItem("ledger:booted", "1");
+	sessionStorage.setItem("island:booted", "1");
 
 	let i = 0;
 	let timer = 0;
@@ -52,15 +53,15 @@ export function initBoot(): void {
 		log.appendChild(el);
 		i++;
 		if (i < LINES.length) {
-			timer = window.setTimeout(step, 150);
+			timer = window.setTimeout(step, 140);
 		} else {
-			timer = window.setTimeout(finish, 450);
+			timer = window.setTimeout(finish, 420);
 		}
 	};
 
 	document.addEventListener("keydown", onKey);
 	boot.addEventListener("click", finish);
-	document.getElementById("boot-skip")?.addEventListener("click", finish);
+	boot.querySelector(".boot-skip")?.addEventListener("click", finish);
 
-	timer = window.setTimeout(step, 150);
+	timer = window.setTimeout(step, 140);
 }
