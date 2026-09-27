@@ -1,11 +1,16 @@
-# mchalise.ledger — The Chalise Ledger
+# mchalise.island — The Career Archipelago
 
-A one-of-a-kind portfolio: **your career as a blockchain under forensic investigation.**
-Near-black console, mint/cyan chain accents, amber alerts — with a live hash-linked chain
-canvas, click-through career blocks that open redacted dossiers, three deep-dive case files,
-a verified stat wall, intent-based contact, and an on-call pager easter egg.
+A one-of-a-kind portfolio in the spirit of acrokat.me: **Manish Chalise's career rendered as an
+interactive 3D island** (three.js). Every career stop is a building — EB Pearls, First Global
+Data, Eepos IT / InvestReady, WhiteHat Engineering, and the ZenLedger citadel with its orbiting
+exchange rings and the BATS federal annex. Hover to label, click (or use the overlay buttons)
+to fly the camera and open the dossier drawer. Featured live product: **investready.com**.
 
-Static output, zero runtime frameworks — Vite + vanilla TypeScript only.
+Extras: toggleable lampposts, a ringable island bell, fireflies, a boot sequence, a verified
+stat wall, intent-based contact — with `pause motion` and `reset 3D view` controls, and full
+`prefers-reduced-motion` support.
+
+Stack: Vite + vanilla TypeScript + three.js. No UI frameworks.
 
 ## Develop
 
@@ -20,25 +25,22 @@ npm run dev
 npm run build      # tsc --noEmit (typecheck) + vite build → dist/
 npm run preview    # serve dist/ locally
 npm run typecheck  # typecheck only
+npm run export     # build + single-file HTML → export/
 ```
 
 ## Deploy
 
-- Any static host: publish the `dist/` folder.
-- **This repo deploys via Vercel** (site: `mchalise.com.np`): pushes to `main` build
-  `dist/` and go live automatically. Build settings live in Vercel — Node 22.x,
-  framework auto-detected (Vite) → output `dist/`.
-- GitHub Pages mirror (optional): enable **Settings → Pages → Source: GitHub Actions**,
-  then run the `Deploy to GitHub Pages` workflow manually from the Actions tab.
-- Custom domain `mchalise.com.np`: point DNS at whatever host serves `dist/`.
+- **This repo deploys via Vercel** (site: `mchalise.com.np`): pushes to `main` build `dist/`
+  and go live automatically. Node 22.x, framework auto-detected (Vite) → output `dist/`.
+- GitHub Pages mirror (optional): enable **Settings → Pages → Source: GitHub Actions**, then
+  run the `Deploy to GitHub Pages` workflow manually from the Actions tab.
 
 ## Content placeholders (owner TODO)
 
-Marked with `PLACEHOLDER` comments in `index.html`:
+Marked with `PLACEHOLDER` comments in `index.html` / `src/island.ts`:
 
 - `og:image` — needs a 1200×630 raster before launch.
-- The "many more" ZenLedger bullets (append to block #004 dossier).
-- NDA-safe screenshots / extra detail for the BATS federal case.
+- NDA-safe screenshots / extra detail for the BATS federal dossier.
 - Confirm `public/resume/ManishChaliseResume.pdf` is the current résumé.
 - Contact policy: phone is intentionally withheld; email is public.
-- ZenLedger dates are canonical **2018–2025** here (older résumé PDF says Nov 2017 – Sep 2023).
+- ZenLedger dates are canonical **2018–2025** (older résumé PDF says Nov 2017 – Sep 2023).
